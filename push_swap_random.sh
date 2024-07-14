@@ -36,17 +36,25 @@ while [ $infinite_loop_count -eq 1 ] || [ $i -lt $loop_count ]; do
     done
     
     # Run your command with the unique numbers
-    result=$(ARGV="$numbers"; ./push_swap $ARGV | ./checker $ARGV)
+    result=$(ARGV="$numbers"; ./push_swap $ARGV)
+
+	# Run the checker program with the unique numbers
+	checker_result=$(echo "$result" | ./checker $numbers)
+
+	# Count the total number of moves
+	total_moves=$(echo "$result" | wc -l | tr -d ' ')
     
     # Check the result
-    if [ "$result" != "OK" ]; then
-        echo "Error: $result"
+    if [ "$checker_result" != "OK" ]; then
+        echo "Error: $checker_result"
         echo "Numbers: $numbers"
         exit 1
     fi
     
+	# Print the numbers and the result
     echo "Numbers: $numbers"
-    echo "Result: $result"
+    echo "Result: $checker_result | Total Moves: $total_moves"
     echo "-------------------------"
     i=$((i+1))
 done
+
