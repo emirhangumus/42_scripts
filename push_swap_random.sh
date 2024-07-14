@@ -13,8 +13,8 @@
 
 # Check if the number of numbers to generate is provided as an argument
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <number_of_numbers>"
-    exit 1
+	echo "Usage: $0 <number_of_numbers>"
+	exit 1
 fi
 
 num_numbers=$1  # Number of numbers to generate in each iteration
@@ -26,35 +26,35 @@ loop_count=2  # If infinite_loop_count is set to 0, this will be the number of i
 
 i=0 # Counter for the loop
 while [ $infinite_loop_count -eq 1 ] || [ $i -lt $loop_count ]; do
-    # Generate random numbers and ensure uniqueness
-    while true; do
-        numbers=$(jot -r $num_numbers $min_number $max_number | uniq | tr '\n' ' ')
-        # Check if there are duplicate numbers
-        if [ -z "$(echo "$numbers" | tr ' ' '\n' | awk '{count[$1]++} END {for (num in count) if (count[num] > 1) print num}')" ] && [[ ! " $numbers " =~ " -0 " ]]; then
-            break
-        fi
-    done
-    
-    # Run your command with the unique numbers
-    result=$(ARGV="$numbers"; ./push_swap $ARGV)
+	# Generate random numbers and ensure uniqueness
+	while true; do
+		numbers=$(jot -r $num_numbers $min_number $max_number | uniq | tr '\n' ' ')
+		# Check if there are duplicate numbers
+		if [ -z "$(echo "$numbers" | tr ' ' '\n' | awk '{count[$1]++} END {for (num in count) if (count[num] > 1) print num}')" ] && [[ ! " $numbers " =~ " -0 " ]]; then
+			break
+		fi
+	done
+	
+	# Run your command with the unique numbers
+	result=$(ARGV="$numbers"; ./push_swap $ARGV)
 
 	# Run the checker program with the unique numbers
 	checker_result=$(echo "$result" | ./checker $numbers)
 
 	# Count the total number of moves
 	total_moves=$(echo "$result" | wc -l | tr -d ' ')
-    
-    # Check the result
-    if [ "$checker_result" != "OK" ]; then
-        echo "Error: $checker_result"
-        echo "Numbers: $numbers"
-        exit 1
-    fi
-    
+	
+	# Check the result
+	if [ "$checker_result" != "OK" ]; then
+		echo "Error: $checker_result"
+		echo "Numbers: $numbers"
+		exit 1
+	fi
+	
 	# Print the numbers and the result
-    echo "Numbers: $numbers"
-    echo "Result: $checker_result | Total Moves: $total_moves"
-    echo "-------------------------"
-    i=$((i+1))
+	echo "Numbers: $numbers"
+	echo "Result: $checker_result | Total Moves: $total_moves"
+	echo "-------------------------"
+	i=$((i+1))
 done
 
