@@ -21,7 +21,7 @@ num_numbers=$1  # Number of numbers to generate in each iteration
 min_number=-10000  # Set the minimum range for random numbers here (adjust as needed)
 max_number=10000  # Set the maximum range for random numbers here (adjust as needed)
 
-infinite_loop_count=1 # Set to 1 to run the script in an infinite loop
+infinite_loop_count=0 # Set to 1 to run the script in an infinite loop
 loop_count=2  # If infinite_loop_count is set to 0, this will be the number of iterations
 
 i=0 # Counter for the loop
